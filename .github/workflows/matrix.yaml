@@ -1,0 +1,30 @@
+name: Process Multiple URLs
+
+on:
+  workflow_dispatch:
+
+jobs:
+  process-urls:
+    strategy:
+      matrix:
+        url:
+          - Issue-Creation-Child2
+          - Issue-Creation-Child1
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check URL
+        run: |
+          echo "Processing URL: ${{ matrix.url }}"
+          
+
+      - name: Create Issue in Another Repo
+        id: create_issue
+        uses: dacbd/create-issue-action@v1
+        with:
+          token: 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
+          repo: ${{ matrix.url }}
+          title: Hello baby1
+          body: Hiiiiii1
+      - run: |
+          echo ${{ fromJson(steps.create_issue.outputs.json).html_url }}     
