@@ -46,7 +46,7 @@ jobs:
 
   read:
       runs-on: ubuntu-latest
-      needs: [create_issue]
+      needs: [process-urls]
       steps:
         - uses: cloudposse/github-action-matrix-outputs-read@main
           id: read
