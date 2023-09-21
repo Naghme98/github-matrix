@@ -70,8 +70,9 @@ jobs:
           
           # New issue body with the updated task list
           tasks=${{ needs.process-urls.outputs.urls }} #which is a , separated strings
+          echo "--------- $tasks -------------"
           new_body="${{ github.event.comment.body }} ##Child Issues: \n- [] $tasks"
-          
+          echo "----**----- $new_body -----**--------"
           # Update the issue body using the GitHub API
           curl -X PATCH \\
             -H "Accept: application/vnd.github+json" \
