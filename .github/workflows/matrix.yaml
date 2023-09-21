@@ -62,9 +62,6 @@ jobs:
     needs: read
 
     steps:
-      - env:
-          urls: ${{ fromJson(needs.read.outputs.result)}}
-        run: echo "&&&&&&&  $urls "
       - name: Update Issue Body
         # if: steps.check_comment.outputs.has_task_list == 'true'
         run: |
@@ -73,7 +70,7 @@ jobs:
           repo_name="${{ github.repository }}"
           
           # New issue body with the updated task list
-
+          urls=${{ fromJson(needs.read.outputs.result).html_url }}
           echo "--------- $urls -------------"
           new_body="${{ github.event.issue.body }} ##Child Issues: \n- [] $urls"
           echo "----**----- $new_body -----**--------"
