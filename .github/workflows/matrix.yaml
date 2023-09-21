@@ -39,10 +39,11 @@ jobs:
           title: ${{ github.event.issue.title }}
           labels: ${{ steps.extract_and_store_labels.outputs.label_names }}
 
-      - run: |
+      - name: Get Urls
+        run: |
           html_url=${{ fromJson(steps.create_issue.outputs.json).html_url }}     
           all_urls="${ALL_URLS},${html_url}"
-          echo "++++++ $all_urls"
+          echo "++++++ $ALL_URLS"
           echo "ALL_URLS=${all_urls}" >> "$GITHUB_ENV"
 
   update-issue-body:
@@ -61,9 +62,9 @@ jobs:
           repo_name="${{ github.repository }}"
           
           # New issue body with the updated task list
-          tasks= 
-          echo "--------- $tasks -------------"
-          new_body="${{ github.event.comment.body }} ##Child Issues: \n- [] $tasks"
+
+          echo "--------- $ALL_URLS -------------"
+          new_body="${{ github.event.issue.body }} ##Child Issues: \n- [] $ALL_URLS"
           echo "----**----- $new_body -----**--------"
           # Update the issue body using the GitHub API
           curl -X PATCH \\
