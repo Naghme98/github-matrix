@@ -39,6 +39,7 @@ jobs:
       - run: |
           html_url=${{ fromJson(steps.create_issue.outputs.json).html_url }}     
           all_urls="${all_urls},${html_url}"
+          echo "++++++ $all_urls"
           echo "urls=${all_urls}" >> "$GITHUB_OUTPUT"
 
   update-issue-body:
