@@ -1,7 +1,9 @@
 name: Process Multiple URLs
 
 on:
-  workflow_dispatch:
+  issues:
+    types:
+      - opened
 
 jobs:
   process-urls:
@@ -10,13 +12,20 @@ jobs:
         url:
           - Issue-Creation-Child2
           - Issue-Creation-Child1
+
     runs-on: ubuntu-latest
+    if: contains(github.event.issue.labels.*.name, 'feature')
 
     steps:
-      - name: Check URL
+      - name: Extract and Store Labels
+        id: extract_and_store_labels
         run: |
-          echo "Processing URL: ${{ matrix.url }}"
-          
+          label_names="${{ join(github.event.issue.labels.*.name, ', ') }}"
+          echo "$label_names ------------"
+          echo "label_names=$label_names" >> "$GITHUB_OUTPUT"
+      
+      # - name: Checkout code
+      #   uses: actions/checkout@v3
 
       - name: Create Issue in Another Repo
         id: create_issue
@@ -24,7 +33,52 @@ jobs:
         with:
           token: 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
           repo: ${{ matrix.url }}
-          title: Hello baby1
-          body: Hiiiiii1
+          title: ${{ github.event.issue.title }}
+          labels: ${{ steps.extract_and_store_labels.outputs.label_names }}
+
       - run: |
-          echo ${{ fromJson(steps.create_issue.outputs.json).html_url }}     
+          html_url=${{ fromJson(steps.create_issue.outputs.json).html_url }}     
+          all_urls="${all_urls},${html_url}"
+          echo "urls=${all_urls}" >> "$GITHUB_OUTPUT"
+
+  update-issue-body:
+    runs-on: ubuntu-latest
+    needs: process-urls
+
+    steps:
+      # - name: Check If Comment Contains Task List
+      #   id: check_comment
+      #   run: |
+      #     # Extract the comment body
+      #     comment_body="${{ github.event.comment.body }}"
+          
+      #     # Check if the comment contains a task list (for example, [ ] or [x])
+      #     if [[ "$comment_body" == *"[ ]"* || "$comment_body" == *"[x]"* ]]; then
+      #       echo "Comment contains a task list"
+      #       echo "::set-output name=has_task_list::true"
+      #     else
+      #       echo "Comment does not contain a task list"
+      #       echo "::set-output name=has_task_list::false"
+      #     fi
+
+      - name: Update Issue Body
+        # if: steps.check_comment.outputs.has_task_list == 'true'
+        run: |
+          # Extract the issue number and repository name
+          issue_number="${{ github.event.issue.number }}"
+          repo_name="${{ github.repository }}"
+          
+          # New issue body with the updated task list
+          tasks=${{ needs.process-urls.outputs.urls }} #which is a , separated strings
+          new_body="${{ github.event.comment.body }} ##Child Issues: \n- [] $tasks"
+          
+          # Update the issue body using the GitHub API
+          curl -X PATCH \\
+            -H "Accept: application/vnd.github+json" \
+            -H "Authorization: Bearer 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" \
+            -H "X-GitHub-Api-Version: 2022-11-28" \
+            https://api.github.com/repos/Naghme98/$repo_name/issues/$issue_number \
+            -d "{\"body\":\"$new_body\"}" 
+            
+
+
