@@ -41,7 +41,7 @@ jobs:
           matrix-step-name: ${{ github.job }}
           matrix-key: ${{ matrix.url }}
           outputs: |-
-             html_url=${{ fromJson(steps.create_issue.outputs.json).html_url }}
+             html_url: ${{ fromJson(steps.create_issue.outputs.json).html_url }}
               
 
   read:
