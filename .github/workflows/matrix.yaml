@@ -27,9 +27,9 @@ jobs:
           repo_names=$(cat repo-names.json)
           echo $repo_names
           # the following lines are only required for multi line json
-          repo_names="${repo_names//'%'/'%25'}"
-          repo_names="${repo_names//$'\n'/'%0A'}"
-          repo_names="${repo_names//$'\r'/'%0D'}"
+          # repo_names="${repo_names//'%'/'%25'}"
+          # repo_names="${repo_names//$'\n'/'%0A'}"
+          # repo_names="${repo_names//$'\r'/'%0D'}"
           # end of optional handling for multi line json
 
           echo "repo_names=$repo_names" >> "$GITHUB_OUTPUT"
