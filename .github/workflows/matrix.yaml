@@ -100,7 +100,10 @@ jobs:
           echo "repooo name:  $repo_names"
 
           # urls=$(echo "$issue_urls" | jq . -r '."html_url" ')
-          urls=${{ fromJson($issue_urls).html_url }}
+          urls1=${{ issue_urls.html_url }}
+          echo "$urls1   -> you bitch"
+
+          urls=${{ fromJson(issue_urls).html_url }}
 
           echo "$urls   -> you bitch"
 
