@@ -1,25 +1,18 @@
-name: Process Multiple URLs
+name: Update Issue in Another Repo
 
 on:
   workflow_dispatch:
 
 jobs:
-  job1:
+  create-issue:
     runs-on: ubuntu-latest
-    # Map a step output to a job output
-    outputs:
-      output1: ${{ steps.step1.outputs.test }}
-      output2: ${{ steps.step2.outputs.test }}
+
     steps:
-      - id: step1
-        run: echo "test=hello" >> "$GITHUB_OUTPUT"
-      - id: step2
-        run: echo "test=world" >> "$GITHUB_OUTPUT"
-  job2:
-    runs-on: ubuntu-latest
-    needs: job1
-    steps:
-      - env:
-          OUTPUT1: ${{needs.job1.outputs.output1}}
-          OUTPUT2: ${{needs.job1.outputs.output2}}
-        run: echo "$OUTPUT1 $OUTPUT2"
+      - name: check
+        run: |
+          # Your JSON object as a string
+          issue_urls='{"url": ["Issue-Creation-Child1","Issue-Creation-Child2"]}'
+          
+
+          # Access URLs using GitHub Actions expression
+          urls=${{ issue_urls.html_url }}
