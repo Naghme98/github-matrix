@@ -101,13 +101,16 @@ jobs:
           echo "--------- $urls -------------"
 
           obj=${{ fromJson(needs.read_repos_file.outputs.urls) }} # Corrected syntax
-          y=$(echo $obj |  jq '.url | .[]')
+          y=$(echo $obj |  jq .)
+          # '.url | .[]')
 
-          for u in $y; do
-            echo "********* $u *******"
-            echo "----name-----  $u"
-            echo "----url------  ${{ fromJson(needs.read.outputs.result).html_url }}.$u"
-          done
+          echo $y -> kissss
+
+          # for u in $y; do
+          #   echo "********* $u *******"
+          #   echo "----name-----  $u"
+          #   echo "----url------  ${{ fromJson(needs.read.outputs.result).html_url }}.$u"
+          # done
 
 
 
