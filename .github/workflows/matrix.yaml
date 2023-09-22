@@ -21,11 +21,6 @@ jobs:
           ls -l "${{ github.workspace }}"
         shell: bash
 
-      - name: Debug Workspace 
-        run: |
-          echo "${{ github.workspace }}"
-        shell: bash  
-
       - name: Read Repo Names from File
         id: read-repo-names
         run: |
