@@ -12,7 +12,8 @@ jobs:
         run: |
           # Your JSON object as a string
           issue_urls='{"url": ["Issue-Creation-Child1","Issue-Creation-Child2"]}'
-          
+
 
           # Access URLs using GitHub Actions expression
-          urls=${{ issue_urls.html_url }}
+          urls=$(echo $issue_urls | jq -r '.html_url')
+          echo $urls
