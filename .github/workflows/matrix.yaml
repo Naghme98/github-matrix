@@ -70,12 +70,13 @@ jobs:
           repo_name="${{ github.repository }}"
           echo "-------**** --- ${{ needs.read.outputs.result }}"
           # New issue body with the updated task list
-          urls=${{ fromJson(needs.read.outputs.result) }}
+          urls=${{ fromJson(needs.read.outputs.result).html_url.Issue-Creation-Child1 }}
           echo "--------- $urls -------------"
           new_body="${{ github.event.issue.body }} ##Child Issues: \n- [] $urls"
           echo "----**----- $new_body -----**--------"
           # Update the issue body using the GitHub API
-          curl -X PATCH \\
+          curl -L \
+            -X PATCH \
             -H "Accept: application/vnd.github+json" \
             -H "Authorization: Bearer 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" \
             -H "X-GitHub-Api-Version: 2022-11-28" \
