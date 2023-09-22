@@ -27,7 +27,7 @@ jobs:
       - name: Read Repo Names from File
         id: read-repo-names
         run: |
-          repo_names=$(cat ./github/workflows/repo-names.json)
+          repo_names=$(cat ./.github/workflows/repo-names.json)
           echo $repo_names
           echo "repo_names=$repo_names" >> "$GITHUB_OUTPUT"
         shell: bash
