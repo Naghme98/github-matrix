@@ -95,13 +95,15 @@ jobs:
           # Extract the issue number and repository name
           issue_number="${{ github.event.issue.number }}"
           repo_name="${{ github.repository }}"
-          echo "-------**** --- ${{ needs.read.outputs.result }}"
+ 
           # New issue body with the updated task list
           urls=${{ fromJson(needs.read.outputs.result).html_url.Issue-Creation-Child1 }}
           echo "--------- $urls -------------"
 
           obj=${{ fromJson(needs.read_repos_file.outputs.urls) }} # Corrected syntax
-          for u in $obj; do
+          y=$(echo $obj |  jq '.url | .[]')
+
+          for u in $y; do
             echo "********* $u *******"
             echo "----name-----  $u"
             echo "----url------  ${{ fromJson(needs.read.outputs.result).html_url }}.$u"
@@ -109,7 +111,7 @@ jobs:
 
 
 
-          new_body="${{ github.event.issue.body }} ##Child Issues: \n- [ ] $urls"
+          new_body="${{ github.event.issue.body }} \n###Child Issues: \n- [ ] $urls"
           echo "----**----- $new_body -----**--------"
           # Update the issue body using the GitHub API
           curl -L \
