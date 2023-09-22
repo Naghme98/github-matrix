@@ -90,7 +90,8 @@ jobs:
           for u in $obj; do
             echo "********* $u *******"
             echo "----name-----  $u"
-            echo "----url------  ${{ fromJson(needs.read.outputs.result).html_url[$u] }}"
+            echo "----url------  ${{ fromJson(needs.read.outputs.result).html_url }}.$u"
+            echo "----changed------  ${{ fromJson(needs.read.outputs.result).html_url.{$u} }}"
           done
 
 
