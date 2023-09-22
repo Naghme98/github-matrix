@@ -99,12 +99,15 @@ jobs:
           echo "my issue_url varlu:  $issue_urls"
           echo "repooo name:  $repo_names"
 
-          urls=$(echo "$issue_urls" | jq .)
+          urls=$(echo "$issue_urls" | jq . -r .html_url[])
+
           echo "$urls   -> you bitch"
 
+      
+
           # echo "tryyy:  $repo_names.url"
-          # for x in $urls; do
-            # echo "-------****--------**       $x"
+          for x in $urls; do
+            echo "-------****--------**       $x"
 
           # obj= # Corrected syntax
 
