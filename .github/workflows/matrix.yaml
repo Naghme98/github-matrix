@@ -101,6 +101,10 @@ jobs:
           echo "--------- $urls -------------"
 
           obj=${{ fromJson(needs.read_repos_file.outputs.urls) }} # Corrected syntax
+
+          echo "~~~~~~~~~ ${{ needs.read_repos_file.outputs.urls }}"
+
+
           for x in $obj; do
             echo $x -> fuck
           done  
