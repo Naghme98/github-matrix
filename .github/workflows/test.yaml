@@ -14,6 +14,10 @@ jobs:
           issue_urls={"html_url":{"Issue-Creation-Child1":"https://github.com/Naghme98/Issue-Creation-Child1/issues/45","Issue-Creation-Child2":"https://github.com/Naghme98/Issue-Creation-Child2/issues/27"}}
 
 
-          # Access URLs using GitHub Actions expression
-          urls=$(echo $issue_urls | jq -r '.html_url')
-          echo $urls
+          # Use grep to find the URLs and loop over them
+          for url in $(echo "$issue_urls" | grep -o '"html_url":"[^"]*' | awk -F':' '{print $2}')
+          do
+            # Remove any trailing double quotes
+            url="${url%\"}"
+            echo "URL: $url"
+          done
