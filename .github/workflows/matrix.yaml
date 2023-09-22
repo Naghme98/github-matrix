@@ -72,7 +72,16 @@ jobs:
           # New issue body with the updated task list
           urls=${{ fromJson(needs.read.outputs.result).html_url.Issue-Creation-Child1 }}
           echo "--------- $urls -------------"
-          new_body="${{ github.event.issue.body }} ##Child Issues: \n- [] $urls"
+
+          obj=${{ fromJson(needs.read.outputs.result).html_url }}
+
+          for u in $obj; do
+            echo "********* $u *******"
+            echo "------  $u.Issue-Creation-Child1"
+
+
+
+          new_body="${{ github.event.issue.body }} ##Child Issues: \n- [ ] $urls"
           echo "----**----- $new_body -----**--------"
           # Update the issue body using the GitHub API
           curl -L \
