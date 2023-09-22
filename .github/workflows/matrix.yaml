@@ -102,7 +102,12 @@ jobs:
 
           obj=${{ fromJson(needs.read_repos_file.outputs.urls).url }} # Corrected syntax
 
-          echo "~~~~~~~~~ ${{ needs.read_repos_file.outputs.urls }}"
+          json_data="${{ needs.read_repos_file.outputs.urls }}"
+          for repo_name in $json_data.url; do
+                echo "Repository Name: $repo_name"
+                # Perform your actions for each repository name here
+          done
+
           echo '~~~~~~~~~~~~ $obj'
 
   
