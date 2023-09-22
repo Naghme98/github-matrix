@@ -13,6 +13,17 @@ jobs:
       urls: ${{ steps.read-repo-names.outputs.repo_names }}
 
     steps:
+
+      - name: Debug Workspace Contents
+        run: |
+          ls -l "${{ github.workspace }}"
+        shell: bash
+
+      - name: Debug Workspace 
+        run: |
+          echo "${{ github.workspace }}"
+        shell: bash  
+
       - name: Read Repo Names from File
         id: read-repo-names
         run: |
