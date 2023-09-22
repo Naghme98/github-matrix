@@ -105,7 +105,7 @@ jobs:
             echo $x -> fuck
           done  
 
-          echo $y -> kissss
+          # echo $y -> kissss
 
           # for u in $y; do
           #   echo "********* $u *******"
