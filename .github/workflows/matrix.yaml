@@ -13,7 +13,10 @@ jobs:
       urls: ${{ steps.read-repo-names.outputs.repo_names }}
 
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
 
+        
       - name: Debug Workspace Contents
         run: |
           ls -l "${{ github.workspace }}"
