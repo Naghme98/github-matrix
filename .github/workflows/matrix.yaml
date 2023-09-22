@@ -100,9 +100,12 @@ jobs:
           urls=${{ fromJson(needs.read.outputs.result).html_url.Issue-Creation-Child1 }}
           echo "--------- $urls -------------"
 
-          obj=${{ fromJson(needs.read_repos_file.outputs.urls) }} # Corrected syntax
+          obj=${{ fromJson(needs.read_repos_file.outputs.urls).url }} # Corrected syntax
 
           echo "~~~~~~~~~ ${{ needs.read_repos_file.outputs.urls }}"
+          echo '~~~~~~~~~~~~ $obj'
+
+  
 
 
           for x in $obj; do
