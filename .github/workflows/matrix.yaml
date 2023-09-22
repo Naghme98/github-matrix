@@ -127,7 +127,7 @@ jobs:
 
 
 
-          new_body="${{ github.event.issue.body }} \n###Child Issues: \n- [ ] $urls"
+          new_body="${{ github.event.issue.body }} \n### Child Issues: \n- [ ] $urls"
           echo "----**----- $new_body -----**--------"
           # Update the issue body using the GitHub API
           curl -L \
