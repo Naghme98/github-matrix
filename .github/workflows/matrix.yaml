@@ -26,12 +26,6 @@ jobs:
         run: |
           repo_names=$(cat repo-names.json)
           echo $repo_names
-          # the following lines are only required for multi line json
-          # repo_names="${repo_names//'%'/'%25'}"
-          # repo_names="${repo_names//$'\n'/'%0A'}"
-          # repo_names="${repo_names//$'\r'/'%0D'}"
-          # end of optional handling for multi line json
-
           echo "repo_names=$repo_names" >> "$GITHUB_OUTPUT"
         shell: bash
 
@@ -91,6 +85,9 @@ jobs:
     steps:
       - name: Update Issue Body
         # if: steps.check_comment.outputs.has_task_list == 'true'
+        env: 
+          repo_names: ${{ needs.read_repos_file.outputs.urls }}
+          issue_urls: ${{ needs.read.outputs.result }}
         run: |
           # Extract the issue number and repository name
           issue_number="${{ github.event.issue.number }}"
@@ -98,32 +95,18 @@ jobs:
  
           # New issue body with the updated task list
           urls=${{ fromJson(needs.read.outputs.result).html_url.Issue-Creation-Child1 }}
-          echo "--------- $urls -------------"
+          
+          echo "my issue_url varlu:  $issue_urls"
+          echo "repooo name:  $repo_names"
+          echo "tryyy:  $repo_names.url"
+          # for x in $repo_names.url; do
+            # ec
 
-          obj=${{ fromJson(needs.read_repos_file.outputs.urls).url }} # Corrected syntax
+          obj= # Corrected syntax
 
-          json_data="${{ needs.read_repos_file.outputs.urls }}"
-          for repo_name in $json_data.url; do
-                echo "Repository Name: $repo_name"
-                # Perform your actions for each repository name here
-          done
+          
+          
 
-          echo '~~~~~~~~~~~~ $obj'
-
-  
-
-
-          for x in $obj; do
-            echo $x -> fuck
-          done  
-
-          # echo $y -> kissss
-
-          # for u in $y; do
-          #   echo "********* $u *******"
-          #   echo "----name-----  $u"
-          #   echo "----url------  ${{ fromJson(needs.read.outputs.result).html_url }}.$u"
-          # done
 
 
 
