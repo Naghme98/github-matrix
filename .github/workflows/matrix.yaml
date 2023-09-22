@@ -10,7 +10,7 @@ jobs:
   read_repos_file:
     runs-on: ubuntu-latest
     outputs:
-      urls: ${{ steps.read-repo-names.outputs.repo_names}}
+      urls: ${{ steps.read-repo-names.outputs.repo_names }}
 
     steps:
       - name: Read Repo Names from File
@@ -24,7 +24,7 @@ jobs:
   process-urls:
     needs: read_repos_file
     strategy:
-      matrix: ${{ fromJson(needs.read_repos_file.outputs.urls }}
+      matrix: ${{ fromJson(needs.read_repos_file.outputs.urls) }}
 
     runs-on: ubuntu-latest
       
@@ -86,12 +86,12 @@ jobs:
           urls=${{ fromJson(needs.read.outputs.result).html_url.Issue-Creation-Child1 }}
           echo "--------- $urls -------------"
 
-          obj=${{ fromJson(needs.read_repos_file.outputs.urls }}
-
+          obj=${{ fromJson(needs.read_repos_file.outputs.urls) }} # Corrected syntax
           for u in $obj; do
             echo "********* $u *******"
             echo "----name-----  $u"
-            echo "----url------  ${{ fromJson(needs.read.outputs.result).html_url.$u"
+            echo "----url------  ${{ fromJson(needs.read.outputs.result).html_url[$u] }}"
+          done
 
 
 
