@@ -103,9 +103,9 @@ jobs:
           urls1=${{ issue_urls.html_url }}
           echo "$urls1   -> you bitch"
 
-          urls=${{ fromJson(issue_urls).html_url }}
+          # urls=${{ fromJson(issue_urls).html_url }}
 
-          echo "$urls   -> you bitch"
+          # echo "$urls   -> you bitch"
 
       
 
