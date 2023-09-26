@@ -115,7 +115,7 @@ jobs:
         curl -L \
           -X PATCH \
           -H "Accept: application/vnd.github+json" \
-          -H "Authorization: Bearer "$github_token" \
+          -H "Authorization: Bearer $github_token" \
           -H "X-GitHub-Api-Version: 2022-11-28" \
           https://api.github.com/repos/Naghme98/github-matrix/issues/$issue_number \
           -d "{\"body\":\"$new_body\"}"
