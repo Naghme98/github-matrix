@@ -13,9 +13,6 @@ jobs:
           # Your JSON object as a string
           issue_urls={"html_url":{"Issue-Creation-Child1":"https://github.com/Naghme98/Issue-Creation-Child1/issues/45","Issue-Creation-Child2":"https://github.com/Naghme98/Issue-Creation-Child2/issues/27"}}
 
-          #parse this var and get https://githu... 
-          #I need it to be a loop style
-          #and it can grow later (have more key values inside the html_url)
-
-          star=$(jq --raw-output .html_url "$issue_urls")
-          echo $star
+          for url in $(echo "$issue_urls" | jq -r '.html_url[]'); do
+            echo "$url"
+          done
