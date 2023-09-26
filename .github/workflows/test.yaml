@@ -13,9 +13,9 @@ jobs:
           # Your JSON object as a string
           issue_urls='{"html_url":{"Issue-Creation-Child1":"https://github.com/Naghme98/Issue-Creation-Child1/issues/45","Issue-Creation-Child2":"https://github.com/Naghme98/Issue-Creation-Child2/issues/27"}}'
 
-          echo $(echo "$issue_urls" | jq -r '.')
+          urls=$(echo "$issue_urls" | jq -r '.[] | values[]')
           echo -------------------------
           
-          for url in $(echo "$issue_urls" | jq -r '."html_url"'); do
-            echo "$url"
+          for url in $(echo "$urls" ); do
+            echo "$url" *********
           done
