@@ -12,7 +12,7 @@ jobs:
         run: |
           # Your JSON object as a string
           issue_urls={"html_url":{"Issue-Creation-Child1":"https://github.com/Naghme98/Issue-Creation-Child1/issues/45","Issue-Creation-Child2":"https://github.com/Naghme98/Issue-Creation-Child2/issues/27"}}
-
-          for url in $(echo "$issue_urls" | jq -r '.html_url[]'); do
+          echo "${{ fromJson(isuse).html_url.Issue-Creation-Child1}}"
+          for url in $(echo "$issue_urls" | jq -r '."html_url"[]'); do
             echo "$url"
           done
