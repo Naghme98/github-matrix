@@ -7,10 +7,15 @@ on:
 
 
 jobs:
+
+  
+
   read_repos_file:
     runs-on: ubuntu-latest
     outputs:
       urls: ${{ steps.read-repo-names.outputs.repo_names }}
+
+    if: contains(github.event.issue.labels.*.name, 'feature') && contains(github.event.issue.labels.*.name, 'automation')
 
     steps:
       - name: Checkout code
@@ -35,8 +40,8 @@ jobs:
       matrix: ${{ fromJson(needs.read_repos_file.outputs.urls) }}
 
     runs-on: ubuntu-latest
-      
-    if: contains(github.event.issue.labels.*.name, 'feature')
+
+    if: contains(github.event.issue.labels.*.name, 'feature') && contains(github.event.issue.labels.*.name, 'automation')
 
     steps:
       - name: Extract and Store Labels
@@ -50,7 +55,7 @@ jobs:
         id: create_issue
         uses: dacbd/create-issue-action@v1
         with:
-          token: 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
+          token: ${{ secrets.TOKEN_TEST}}
           repo: ${{ matrix.url }}
           title: ${{ github.event.issue.title }}
           labels: ${{ steps.extract_and_store_labels.outputs.label_names }}
@@ -68,6 +73,8 @@ jobs:
   read:
       runs-on: ubuntu-latest
       needs: process-urls
+      if: contains(github.event.issue.labels.*.name, 'feature') && contains(github.event.issue.labels.*.name, 'automation')
+
       steps:
         - uses: cloudposse/github-action-matrix-outputs-read@main
           id: read
@@ -81,11 +88,13 @@ jobs:
   update-issue-body:
     runs-on: ubuntu-latest
     needs: [read,read_repos_file] 
+    if: contains(github.event.issue.labels.*.name, 'feature') && contains(github.event.issue.labels.*.name, 'automation')
 
     steps:
     - name: Update Issue Body
       env: 
         issue_urls: ${{ needs.read.outputs.result }}
+        github_token: ${{ secrets.TOKEN_TEST }}
       run: |
         # Extract the issue number and repository name
         issue_number="${{ github.event.issue.number }}"
@@ -106,7 +115,7 @@ jobs:
         curl -L \
           -X PATCH \
           -H "Accept: application/vnd.github+json" \
-          -H "Authorization: Bearer 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" \
+          -H "Authorization: Bearer "$github_token" \
           -H "X-GitHub-Api-Version: 2022-11-28" \
           https://api.github.com/repos/Naghme98/github-matrix/issues/$issue_number \
           -d "{\"body\":\"$new_body\"}"
