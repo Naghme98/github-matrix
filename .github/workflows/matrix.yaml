@@ -103,12 +103,14 @@ jobs:
         urls=$(echo "$issue_urls" | jq -r '.[] | values[]')
         check_box_body=''
         for url in $urls; do
-          check_box_body="$check_box_body\n- [ ] $url"
+          check_box_body="$check_box_body
+          - [ ] $url"
         done
 
         echo "--------------$check_box_body"
 
-        new_body="${{ github.event.issue.body }} \n### Child Issues: $check_box_body"
+        new_body="${{ github.event.issue.body }} 
+        ### Child Issues: $check_box_body"
 
         json_data=$(jq -n --arg body "$new_body" '{body: $body}') 
         echo "----*--*----- $new_body -----**--------"
