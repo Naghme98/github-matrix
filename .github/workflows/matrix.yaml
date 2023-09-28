@@ -109,7 +109,7 @@ jobs:
         echo "--------------$check_box_body"
 
         new_body="${{ github.event.issue.body }} "
-        json_data=$(jq -n --arg body "$text" '{body: $new_body}')  
+        json_data=$(jq -n --arg body "$new_body" '{body: $body}') 
         echo "----*--*----- $new_body -----**--------"
 
         # Update the issue body using the GitHub API
