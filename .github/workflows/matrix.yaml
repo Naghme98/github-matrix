@@ -108,8 +108,8 @@ jobs:
 
         echo "--------------$check_box_body"
 
-        new_body="${{ github.event.issue.body }} "\n### Child Issues: $check_box_body"
-        
+        new_body="${{ github.event.issue.body }} \n### Child Issues: $check_box_body"
+
         json_data=$(jq -n --arg body "$new_body" '{body: $body}') 
         echo "----*--*----- $new_body -----**--------"
 
