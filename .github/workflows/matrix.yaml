@@ -109,8 +109,8 @@ jobs:
         echo "--------------$check_box_body"
 
         new_body="${{ github.event.issue.body }} "
-        new_body=$(echo -n "$new_body" | awk 'NF{printf "%s\\n", $0}')
-
+        new_body=$(echo "$new_body" | awk 'NF{gsub(/\n/, "\\n"); printf "%s%s", $0, (NR==1 ? "" : "\\n")}')
+        
         echo "----**----- $new_body -----**--------"
 
         # Update the issue body using the GitHub API
