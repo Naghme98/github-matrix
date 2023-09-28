@@ -108,7 +108,7 @@ jobs:
 
         echo "--------------$check_box_body"
 
-        new_body="${{ github.event.issue.body }} 
+        new_body="${{ github.event.issue.body }} "
         echo "----**----- $new_body -----**--------"
 
         # Update the issue body using the GitHub API
