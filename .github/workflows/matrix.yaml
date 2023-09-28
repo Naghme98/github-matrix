@@ -109,7 +109,7 @@ jobs:
         echo "--------------$check_box_body"
 
         new_body="${{ github.event.issue.body }} "
-        new_body=$(echo "$new_body" | awk 'NF{gsub(/\n/, "\\n"); printf "%s%s", $0, (NR==1 ? "" : "\\n")}')
+        new_body=$(echo "$new_body" | tr -s '\n' | sed 's/$/\\n/' | tr -d '\n')
         
         echo "----**----- $new_body -----**--------"
 
