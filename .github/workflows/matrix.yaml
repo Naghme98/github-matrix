@@ -109,8 +109,8 @@ jobs:
         echo "--------------$check_box_body"
 
         new_body="${{ github.event.issue.body }} "
-        new_bodyy=$(echo "$new_body" | tr -d '\n')
-        echo "----*--*----- $new_bodyy -----**--------"
+        json_data=$(jq -n --arg body "$text" '{body: $new_body}')  
+        echo "----*--*----- $new_body -----**--------"
 
         # Update the issue body using the GitHub API
         curl -L \
@@ -119,7 +119,7 @@ jobs:
           -H "Authorization: Bearer $github_token" \
           -H "X-GitHub-Api-Version: 2022-11-28" \
           https://api.github.com/repos/Naghme98/github-matrix/issues/$issue_number \
-          -d "{\"body\":\"$new_bodyy\"}"
+          -d "$json_data"
 
               
 
